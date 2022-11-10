@@ -1,243 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="pastel" lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>가위바위보</title>
     <link
-      rel="shortcut icon"
-      href="https://upload.wikimedia.org/wikipedia/commons/thumb/archive/8/84/20111020052924%21NYCS-bull-trans-Q.svg/120px-NYCS-bull-trans-Q.svg.png"
-    />
-    <base href="../assets/images/" />
-    <title>quizstory</title>
-    <html data-theme="cupcake"></html>
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.33.0/dist/full.css"
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.38.1/dist/full.css"
       rel="stylesheet"
       type="text/css"
     />
-    <style>
-      @media screen and (max-width: 640px) {
-        .searchbar {
-          display: none;
-        }
-        .addbutton {
-          position: fixed;
-          bottom: 30px;
-          right: 10px;
-          z-index: 100;
-          border-radius: 40%;
-          background: rgb(3, 1, 1);
-          height: 70px;
-          width: 100px;
-          font-size: 25px;
-          color: white;
-        }
-        .menubutton_640 {
-          display: block;
-        }
-      }
-      @media screen and (min-width: 640px) {
-        .menubutton_640 {
-          display: none;
-        }
-      }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-      .menubar {
-        font-size: 20px;
+    <style>
+      img {
+        height: 200px;
+        width: 200px;
+      }
+      #startgame {
+        height: 50px;
       }
       .container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
         justify-content: center;
+        flex-wrap: wrap;
+        padding: 40px;
       }
-      .card-body {
-        padding: 10px;
-      }
-      .card {
-        display: flex;
-        padding: 10px;
-        margin: 10px;
-        height: 300px;
-        width: 300px;
-        background-color: violet;
-      }
-      .addbutton {
-        float: right;
+      .container > div {
         margin: 20px;
-        margin-right: 40px;
-      }
-      .img:hover {
-        pointer-events: stroke;
-        transform: scale(300px);
-        transition: all 1s ease-in;
-      }
-      .math {
-        background-color: rgb(240, 205, 140);
-      }
-      .science {
-        background-color: skyblue;
       }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-
-  <!-- 여기부터 모달 -->
-
-  <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-  <div class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box">
-      <h3 class="font-bold text-lg">퀴즈 추가</h3>
-      <input
-        type="file"
-        class="file-input file-input-bordered file-input-success w-full max-w-xs"
-      />
-      <p class="py-4">자바스크립트를 배워야 이 기능을 만들 수 있을 것 같다..</p>
-      <div class="modal-action">
-        <label for="my-modal-6" class="btn">추가하기</label>
+  <!--여기부터 바디 -->
+  <body>
+    <div class="navbar bg-base-300">
+      <a class="btn btn-ghost normal-case text-xl">가위바위보게임</a>
+    </div>
+    <!--게임방법 설명-->
+    <div
+      tabindex="0"
+      class="collapse border border-base-300 bg-base-100 rounded-box"
+    >
+      <div class="collapse-title text-xl font-medium text-center">게임방법</div>
+      <div class="collapse-content font-medium text-center">
+        <p>1.가위바위보 중 하나를 선택하여 누른다..</p>
+        <p>2.다시하기 버튼을 눌러 컴퓨터를 이겨보자.</p>
+        <p>3.5승을 먼저 달성하면 승리!</p>
       </div>
     </div>
-  </div>
+    <div
+      tabindex="0"
+      class="collapse border border-base-300 bg-base-100 rounded-box"
+    >
+      <div
+        id="startgame"
+        class="collapse-title text-xl font-medium text-center"
+      ></div>
 
-  <!-- 여기부터 바디 -->
-
-  <body>
-    <!-- 네비바 -->
-    <div class="navbar bg-base-100">
-      <div class="flex-1">
-        <a class="btn btn-ghost normal-case text-xl">quizstory</a>
+      <!--가위바위보 선택박스-->
+      <div id="choose_boxs" class="container flex">
+        <div class="card w-96 bg-base-100 shadow-xl">
+          <figure>
+            <img
+              src="http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/rock.png"
+            />
+          </figure>
+          <div class="card-body h-40">
+            <button
+              id="choose1"
+              class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+            >
+              선택하기
+            </button>
+          </div>
+        </div>
+        <div class="card w-96 bg-base-100 shadow-xl">
+          <figure>
+            <img
+              src="http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/paper.png"
+            />
+          </figure>
+          <div class="card-body">
+            <button
+              id="choose2"
+              class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+            >
+              선택하기
+            </button>
+          </div>
+        </div>
+        <div class="card w-96 bg-base-100 shadow-xl">
+          <figure>
+            <img
+              src="http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/scissor.png"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <button
+              id="choose3"
+              class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+            >
+              선택하기
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="flex-none menubutton_640">
-        <button class="btn btn-square btn-ghost">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-5 h-5 stroke-current"
+    </div>
+    <div class="h-10"></div>
+    <!--결과창-->
+    <div id="comwin_result" class="justify-center hidden">
+      <div></div>
+      <div>
+        <a class="btn content-center btn-ghost normal-case text-6xl"
+          >당신은 컴퓨터에게 패배해버렸습니다...</a
+        >
+      </div>
+      <div></div>
+      <div></div>
+    </div>
+    <div id="mywin_result" class="justify-center hidden">
+      <div></div>
+      <div>
+        <a class="btn content-center btn-ghost normal-case text-6xl"
+          >당신은 이세돌9단의 복수를 이루었습니다!!</a
+        >
+      </div>
+      <div></div>
+      <div></div>
+    </div>
+    <!--가위바위보 결과 및 다시하기창-->
+    <div id="choosed_box" class="container hidden">
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <a id="mywin" class="btn btn-ghost normal-case text-4xl">1승</a>
+        <figure>
+          <img id="mychoose" src="" />
+        </figure>
+        <div class="card-body h-40">
+          <button
+            class="btn btn-secondary btn-xs sm:btn-sm md:btn-md lg:btn-lg"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
+            나의 선택
+          </button>
+        </div>
+      </div>
+      <figure>
+        <img
+          src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/versus-crbn-dsgn.jpg"
+        />
+      </figure>
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <a id="comwin" class="btn btn-ghost normal-case text-4xl">1승</a>
+        <figure>
+          <img
+            id="comchoose"
+            src="http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/paper.png"
+          />
+        </figure>
+        <div class="card-body">
+          <button
+            class="btn btn-secondary btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+          >
+            컴퓨터의 선택
+          </button>
+        </div>
+      </div>
+      <div class="absolute self-center items-bottom">
+        <button
+          id="regame"
+          class="place-content-center btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+        >
+          다시하기
         </button>
       </div>
-      <div class="flex-none gap-2 searchbar">
-        <div class="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            class="input input-bordered"
-          />
-        </div>
-        <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img src="https://placeimg.com/80/80/people" />
-            </div>
-          </label>
-          <ul
-            tabindex="0"
-            class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <a class="justify-between">
-                Profile
-                <span class="badge">New</span>
-              </a>
-            </li>
-            <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
-    <!-- 메뉴바 -->
-    <div class="menubar">
-      <ul class="menu menu-horizontal bg-base-100">
-        <li><a>모든 문제</a></li>
-        <!-- tabindex will make the parent menu focusable to keep the submenu open if it's focused -->
-        <li tabindex="0">
-          <span>안 푼 문제</span>
-          <ul class="bg-base-100">
-            <li><a>사회</a></li>
-            <li><a>과학</a></li>
-            <li><a>수학</a></li>
-          </ul>
-        </li>
-        <li><a>푼 문제</a></li>
-      </ul>
-      <label for="my-modal-6" class="addbutton btn">퀴즈 추가</label>
-    </div>
-    <!-- 여기서부터 박스 -->
-    <div class="container">
-      <div class="card w-96 bg-base-100 shadow-xl social">
-        <div class="card-body">
-          <h2 class="card-title">사회문제</h2>
-          <p>방금 화장실에서 나온 사람의 국적은?</p>
-        </div>
-        <figure>
-          <img
-            src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/fbqguk0j/5b7178f8267f4759aca66203ad67c4d1.jpg"
-          />
-        </figure>
-      </div>
-      <div class="card w-96 bg-base-100 shadow-xl math">
-        <div class="card-body">
-          <h2 class="card-title">수학</h2>
-          <p>다음 문제의 정답을 풀어보시오</p>
-        </div>
-        <figure>
-          <img
-            src="data:image/jpeg;base64,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"
-          />
-        </figure>
-      </div>
-      <div class="card w-96 bg-base-100 shadow-xl science">
-        <div class="card-body">
-          <h2 class="card-title">과학</h2>
-          <p>지구의 계절이 바뀌는 이유는 무엇일까요?</p>
-        </div>
-        <figure>
-          <img src="https://placeimg.com/400/225/arch" alt="Shoes" />
-        </figure>
-      </div>
-      <div class="card w-96 bg-base-100 shadow-xl social">
-        <div class="card-body">
-          <h2 class="card-title">사회문제</h2>
-          <p>방금 화장실에서 나온 사람의 국적은?</p>
-        </div>
-        <figure>
-          <img
-            src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/fbqguk0j/5b7178f8267f4759aca66203ad67c4d1.jpg"
-          />
-        </figure>
-      </div>
-      <div class="card w-96 bg-base-100 shadow-xl social">
-        <div class="card-body">
-          <h2 class="card-title">사회문제</h2>
-          <p>방금 화장실에서 나온 사람의 국적은?</p>
-        </div>
-        <figure>
-          <img
-            src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/fbqguk0j/5b7178f8267f4759aca66203ad67c4d1.jpg"
-          />
-        </figure>
-      </div>
-      <div class="card w-96 bg-base-100 shadow-xl social">
-        <div class="card-body">
-          <h2 class="card-title">사회문제</h2>
-          <p>방금 화장실에서 나온 사람의 국적은?</p>
-        </div>
-        <figure>
-          <img
-            src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/fbqguk0j/5b7178f8267f4759aca66203ad67c4d1.jpg"
-          />
-        </figure>
-      </div>
-    </div>
+
+    <script>
+      const choose_1 = document.getElementById("choose1");
+      const choose_2 = document.getElementById("choose2");
+      const choose_3 = document.getElementById("choose3");
+      const choose_box = document.getElementById("choose_boxs");
+      const choosed_box = document.getElementById("choosed_box");
+      const mychoose = document.getElementById("mychoose");
+      const comchoose = document.getElementById("comchoose");
+      const my_win = document.getElementById("mywin");
+      const com_win = document.getElementById("comwin");
+      const re_game = document.getElementById("regame");
+      const com_win_result = document.getElementById("comwin_result");
+      const my_win_result = document.getElementById("mywin_result");
+      //승수를 나타냅니다.
+      let mywin_num = 0;
+      let comwin_num = 0;
+      //선택후 컴퓨터에는 난수를 부여해 랜덤으로 가위바위보를 띄웁니다.
+      function afterChoose() {
+        choose_box.classList.remove("flex");
+        choose_box.classList.add("hidden");
+        choosed_box.classList.remove("hidden");
+        choosed_box.classList.add("flex");
+        let com_num = Math.floor(Math.random() * 3) + 1;
+
+        if (com_num == 1) {
+          comchoose.setAttribute(
+            "src",
+            "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/rock.png"
+          );
+        } else if (com_num == 2) {
+          comchoose.setAttribute(
+            "src",
+            "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/paper.png"
+          );
+        } else {
+          comchoose.setAttribute(
+            "src",
+            "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/scissor.png"
+          );
+        }
+      }
+      //5승후 결과창울 띄웁니다.
+      function showResultBox() {
+        if (comwin_num > 4 || (mywin_num > 4 && mywin_num != comwin_num)) {
+          if (comwin_num > mywin_num) {
+            my_win_result.classList.remove("flex");
+            my_win_result.classList.add("hidden");
+            com_win_result.classList.remove("hidden");
+            com_win_result.classList.add("flex");
+          } else {
+            com_win_result.classList.remove("flex");
+            com_win_result.classList.add("hidden");
+            my_win_result.classList.remove("hidden");
+            my_win_result.classList.add("flex");
+          }
+        }
+      }
+      //다시하기 버튼 활성화
+      function regame() {
+        choosed_box.classList.remove("flex");
+        choosed_box.classList.add("hidden");
+        choose_box.classList.remove("hidden");
+        choose_box.classList.add("flex");
+      }
+      //내가 고른 것에 따라 나의 선택의 이미지를 바꾸고 결과를 나타냅니다.
+      //이미지 주소에서 컴퓨터의 선택은 무엇인지에 따라 승수를 추가합니다.
+      function rock() {
+        mychoose.setAttribute(
+          "src",
+          "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/rock.png"
+        );
+        let x = comchoose.getAttribute("src").slice(-11, -1);
+        if (x.indexOf("scissor") > -1) {
+          mywin_num += 1;
+        } else if (x.indexOf("paper") > -1) {
+          comwin_num += 1;
+        }
+        showResultBox();
+        my_win.innerText = String(mywin_num) + "승";
+        com_win.innerText = String(comwin_num) + "승";
+        if (x.indexOf("rock") > -1) {
+          my_win.innerText = "무승부";
+          com_win.innerText = "무승부";
+        }
+      }
+      function paper() {
+        mychoose.setAttribute(
+          "src",
+          "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/paper.png"
+        );
+        let x = comchoose.getAttribute("src").slice(-11, -1);
+        if (x.indexOf("scissor") > -1) {
+          comwin_num += 1;
+        } else if (x.indexOf("rock") > -1) {
+          mywin_num += 1;
+        }
+        showResultBox();
+        my_win.innerText = String(mywin_num) + "승";
+        com_win.innerText = String(comwin_num) + "승";
+        if (x.indexOf("paper") > -1) {
+          my_win.innerText = "무승부";
+          com_win.innerText = "무승부";
+        }
+      }
+      function scissor() {
+        mychoose.setAttribute(
+          "src",
+          "http://jhnsoft.dothome.co.kr/rock-paper-scissors/img/scissor.png"
+        );
+        let x = comchoose.getAttribute("src").slice(-11, -1);
+        if (x.indexOf("paper") > -1) {
+          mywin_num += 1;
+        } else if (x.indexOf("rock") > -1) {
+          comwin_num += 1;
+        }
+        showResultBox();
+        my_win.innerText = String(mywin_num) + "승";
+        com_win.innerText = String(comwin_num) + "승";
+        if (x.indexOf("scissor") > -1) {
+          my_win.innerText = "무승부";
+          com_win.innerText = "무승부";
+        }
+      }
+      //이벤트창
+      choose_1.addEventListener("click", afterChoose);
+      choose_1.addEventListener("click", rock);
+      choose_2.addEventListener("click", afterChoose);
+      choose_2.addEventListener("click", paper);
+      choose_3.addEventListener("click", afterChoose);
+      choose_3.addEventListener("click", scissor);
+      re_game.addEventListener("click", regame);
+    </script>
   </body>
 </html>
