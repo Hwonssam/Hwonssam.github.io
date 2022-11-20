@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-theme="cupcake" lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고백공격</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.39.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="text-center my-10">
+      <a class="btn btn-ghost normal-case text-5xl">당신의 고백은 성공할 수 있을까요?</a>
+    </div>
+    <div class="flex justify-center">
+      <button @click="askAnswer" class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg ">결과보기</button>
+    </div>
+    <div class="divider my-10">결과</div>
+    <div v-show="기다리는중" class="text-center">
+      <a class="btn btn-ghost normal-case text-5xl">기다리는중(2초)</a>
+    </div>
+    <div v-show="!기다리는중" class="text-center">
+      <div class="text-6xl text-primary">{{ answer }}</div>
+      <div class="flex justify-center my-10">
+        <img :src="image" :alt="answer" width="300" />
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script>
+  const { createApp } = Vue;
+  createApp({
+    data() {
+      return {
+        기다리는중: false,
+        answer: "",
+        image: "",
+      };
+    },
+    methods: {
+      askAnswer() {
+        this.기다리는중 = true;
+        axios
+          .get("https://yesno.wtf/api")
+          .then((response) => {
+            setTimeout(() => (this.기다리는중 = false), 1300);
+            this.answer = response.data.answer;
+            this.image = response.data.image;
+          })
+      },
+    },
+  }).mount("#app");
+</script>
